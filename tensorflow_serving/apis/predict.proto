@@ -5,6 +5,7 @@ option cc_enable_arenas = true;
 
 import "tensorflow/core/framework/tensor.proto";
 import "tensorflow_serving/apis/model.proto";
+import "google/protobuf/wrappers.proto";
 
 // PredictRequest specifies which TensorFlow model to run, as well as
 // how inputs are mapped to tensors and how outputs are filtered before
@@ -35,4 +36,7 @@ message PredictRequest {
 message PredictResponse {
   // Output tensors.
   map<string, TensorProto> outputs = 1;
+
+  // TF model version
+  google.protobuf.Int64Value version = 2;
 }
