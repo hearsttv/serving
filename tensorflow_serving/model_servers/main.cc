@@ -203,12 +203,6 @@ class PredictionServiceImpl final : public PredictionService::Service {
   grpc::Status Predict(ServerContext* context, const PredictRequest* request,
                        PredictResponse* response) override {
 
-    // Include the model version in the response if one exists.
-    if (request->model_spec().has_version()) {
-      PredictRequest* requestClone = new PredictRequest(*request);
-      response->set_allocated_version(requestClone->mutable_model_spec()->mutable_version());
-    }
-
     tensorflow::RunOptions run_options = tensorflow::RunOptions();
     // By default, this is infinite which is the same default as RunOptions.
     run_options.set_timeout_in_ms(

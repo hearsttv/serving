@@ -21,6 +21,7 @@ limitations under the License.
 #include <utility>
 #include <vector>
 
+#include "google/protobuf/wrappers.pb.h"
 #include "tensorflow/cc/saved_model/loader.h"
 #include "tensorflow/cc/saved_model/signature_constants.h"
 #include "tensorflow/contrib/session_bundle/session_bundle.h"
@@ -247,6 +248,10 @@ Status SavedModelPredict(const RunOptions& run_options, ServerCore* core,
   // Validate signatures.
   ServableHandle<SavedModelBundle> bundle;
   TF_RETURN_IF_ERROR(core->GetServableHandle(request.model_spec(), &bundle));
+
+  ::google::protobuf::Int64Value* version = new Int64Value();
+  version.set_value(bundle.id().version);  
+  response->set_allocated_version(version);
 
   const string signature_name = request.model_spec().signature_name().empty()
                                     ? kDefaultServingSignatureDefKey
