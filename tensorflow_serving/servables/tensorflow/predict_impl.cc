@@ -249,8 +249,8 @@ Status SavedModelPredict(const RunOptions& run_options, ServerCore* core,
   ServableHandle<SavedModelBundle> bundle;
   TF_RETURN_IF_ERROR(core->GetServableHandle(request.model_spec(), &bundle));
 
-  ::google::protobuf::Int64Value* version = new Int64Value();
-  version.set_value(bundle.id().version);  
+  ::google::protobuf::Int64Value* version = new ::google::protobuf::Int64Value();
+  version->set_value(bundle.id().version);  
   response->set_allocated_version(version);
 
   const string signature_name = request.model_spec().signature_name().empty()
